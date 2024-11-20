@@ -37,7 +37,7 @@ const Calendar = () => {
         'template_ooftzq7', // Remplace par ton Template ID EmailJS
         {
           to_name: 'Maxime', // Nom du destinataire
-          to_email: 'maxolol19@gmail.com', // Adresse email destinataire
+          to_email: 'pontus.maxime@yahoo.com', // Adresse email destinataire
           event_name: eventName,
           event_date: format(new Date(eventDate), 'HH:mm dd MMMM yyyy', { locale: fr }),
         },
