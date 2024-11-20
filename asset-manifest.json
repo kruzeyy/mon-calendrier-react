@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/kruzeyy/mon-calendrier-react.git/static/css/main.ca34dfca.css",
-    "main.js": "/kruzeyy/mon-calendrier-react.git/static/js/main.5a31a4a5.js",
-    "static/js/453.d5346593.chunk.js": "/kruzeyy/mon-calendrier-react.git/static/js/453.d5346593.chunk.js",
-    "index.html": "/kruzeyy/mon-calendrier-react.git/index.html",
-    "main.ca34dfca.css.map": "/kruzeyy/mon-calendrier-react.git/static/css/main.ca34dfca.css.map",
-    "main.5a31a4a5.js.map": "/kruzeyy/mon-calendrier-react.git/static/js/main.5a31a4a5.js.map",
-    "453.d5346593.chunk.js.map": "/kruzeyy/mon-calendrier-react.git/static/js/453.d5346593.chunk.js.map"
+    "main.css": "/mon-calendrier-react/static/css/main.ca34dfca.css",
+    "main.js": "/mon-calendrier-react/static/js/main.8086fcbe.js",
+    "static/js/453.d5346593.chunk.js": "/mon-calendrier-react/static/js/453.d5346593.chunk.js",
+    "index.html": "/mon-calendrier-react/index.html",
+    "main.ca34dfca.css.map": "/mon-calendrier-react/static/css/main.ca34dfca.css.map",
+    "main.8086fcbe.js.map": "/mon-calendrier-react/static/js/main.8086fcbe.js.map",
+    "453.d5346593.chunk.js.map": "/mon-calendrier-react/static/js/453.d5346593.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ca34dfca.css",
-    "static/js/main.5a31a4a5.js"
+    "static/js/main.8086fcbe.js"
   ]
 }
