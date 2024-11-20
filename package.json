@@ -2,7 +2,7 @@
   "name": "mon-calendrier-react",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://github.com/kruzeyy/mon-calendrier-react.git",
+  "homepage": "https://kruzeyy.github.io/mon-calendrier-react",
   "dependencies": {
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
