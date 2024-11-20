@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/kruzeyy/mon-calendrier-react.git/static/css/main.ca34dfca.css",
+    "main.js": "/kruzeyy/mon-calendrier-react.git/static/js/main.c0ff42ab.js",
+    "static/js/453.d5346593.chunk.js": "/kruzeyy/mon-calendrier-react.git/static/js/453.d5346593.chunk.js",
+    "index.html": "/kruzeyy/mon-calendrier-react.git/index.html",
+    "main.ca34dfca.css.map": "/kruzeyy/mon-calendrier-react.git/static/css/main.ca34dfca.css.map",
+    "main.c0ff42ab.js.map": "/kruzeyy/mon-calendrier-react.git/static/js/main.c0ff42ab.js.map",
+    "453.d5346593.chunk.js.map": "/kruzeyy/mon-calendrier-react.git/static/js/453.d5346593.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ca34dfca.css",
+    "static/js/main.c0ff42ab.js"
+  ]
+}
