@@ -93,7 +93,7 @@ const Calendar = () => {
                           <div>{event.eventName}</div>
                         </div>
                       );
-                    }
+                    } else
                     return null;
                   })}
                 </div>
