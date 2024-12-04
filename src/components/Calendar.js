@@ -1,65 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { format, addDays, startOfWeek, setHours, setMinutes, isToday } from 'date-fns';
-import { fr } from 'date-fns/locale'; // Localisation française
+import { format, addDays, startOfWeek } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import CreateEventForm from './CreateEventForm';
-import emailjs from '@emailjs/browser'; // Import EmailJS
 
 const Calendar = () => {
   const [currentWeek, setCurrentWeek] = useState(new Date());
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [events, setEvents] = useState({});
   const [showForm, setShowForm] = useState(false);
 
-  // Charger les événements depuis le stockage local
   useEffect(() => {
     const savedEvents = JSON.parse(localStorage.getItem('events')) || {};
     setEvents(savedEvents);
   }, []);
 
-  // Mettre à jour l'heure actuelle toutes les minutes
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Sauvegarder les événements dans le stockage local
   useEffect(() => {
     localStorage.setItem('events', JSON.stringify(events));
   }, [events]);
 
-  // Fonction pour envoyer un email via EmailJS
-  const sendEmailNotification = (eventName, eventDate) => {
-    emailjs
-      .send(
-        'service_1l76i2b', // Remplace par ton Service ID EmailJS
-        'template_ooftzq7', // Remplace par ton Template ID EmailJS
-        {
-          to_name: 'Maxime', // Nom du destinataire
-          to_email: 'pontus.maxime@yahoo.com', // Adresse email destinataire
-          event_name: eventName,
-          event_date: format(new Date(eventDate), 'HH:mm dd MMMM yyyy', { locale: fr }),
-        },
-        'Nt5q7ny28pMGpvi6V' // Remplace par ta clé publique EmailJS
-      )
-      .then(
-        (response) => {
-          console.log('Email envoyé avec succès !', response.status, response.text);
-        },
-        (error) => {
-          console.error('Erreur lors de l\'envoi de l\'email :', error);
-        }
-      );
+  const generateId = () => {
+    return Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
   };
 
-  // Ajouter un événement
-  const addEvent = (dateKey, eventName) => {
+  const addEvent = (dateKey, startTime, endTime, eventName) => {
+    const newEvent = { id: generateId(), eventName, startTime, endTime };
     setEvents((prev) => ({
       ...prev,
-      [dateKey]: [...(prev[dateKey] || []), eventName],
+      [dateKey]: [...(prev[dateKey] || []), newEvent],
     }));
-    sendEmailNotification(eventName, dateKey); // Envoi de la notification par email
   };
 
   const renderHeader = () => {
@@ -87,13 +54,12 @@ const Calendar = () => {
   };
 
   const renderTimeSlots = () => {
-    const hours = Array.from({ length: 24 }, (_, i) => i); // Plage horaire : 0h à 23h
+    const hours = Array.from({ length: 24 }, (_, i) => i);
     const start = startOfWeek(currentWeek, { locale: fr });
     const days = Array.from({ length: 7 }, (_, i) => addDays(start, i));
 
     return (
       <div className="grid grid-cols-8 border-t border-gray-700">
-        {/* En-tête des jours */}
         <div className="bg-gray-800 text-gray-300 text-center font-bold"></div>
         {days.map((day, index) => (
           <div key={index} className="bg-gray-800 text-gray-300 text-center font-bold p-2">
@@ -101,45 +67,35 @@ const Calendar = () => {
           </div>
         ))}
 
-        {/* Colonnes horaires */}
         {hours.map((hour) => (
           <React.Fragment key={hour}>
-            {/* Colonne des heures */}
             <div className="text-gray-400 bg-gray-900 text-right pr-2 h-16 border-b border-gray-700">
               {hour}:00
             </div>
             {days.map((day) => {
-              const slotTime = setMinutes(setHours(day, hour), 0);
-              const slotKey = format(slotTime, 'yyyy-MM-dd HH:mm');
-
+              const dateKey = format(day, 'yyyy-MM-dd');
               return (
                 <div
-                  key={slotKey}
+                  key={`${dateKey}-${hour}`}
                   className="h-16 border-b border-gray-700 relative cursor-pointer hover:bg-gray-800"
                 >
-                  {/* Afficher les événements */}
-                  {events[slotKey]?.map((event, index) => (
-                    <div
-                      key={index}
-                      className="absolute top-2 left-1 w-[95%] bg-blue-500 text-white text-xs rounded p-1"
-                    >
-                      {event}
-                    </div>
-                  ))}
-
-                  {/* Barre de l'heure actuelle */}
-                  {isToday(day) && currentTime.getHours() === hour && (
-                    <div
-                      className="absolute left-0 right-0 h-1 bg-red-500"
-                      style={{
-                        top: `${(currentTime.getMinutes() / 60) * 100}%`,
-                      }}
-                    >
-                      <div className="absolute top-[-1.5rem] text-xs text-orange-500 font-bold bg-gray-900 p-1 rounded-md">
-                        {format(currentTime, 'HH:mm')}
-                      </div>
-                    </div>
-                  )}
+                  {events[dateKey]?.map((event) => {
+                    const eventStartHour = parseInt(event.startTime.split(':')[0], 10);
+                    if (eventStartHour === hour) {
+                      return (
+                        <div
+                          key={event.id}
+                          className="absolute top-2 left-1 w-[95%] bg-blue-500 text-white text-xs rounded p-1"
+                        >
+                          <span className="font-bold">
+                            {event.startTime} - {event.endTime}
+                          </span>
+                          <div>{event.eventName}</div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
                 </div>
               );
             })}
@@ -163,9 +119,8 @@ const Calendar = () => {
       {showForm ? (
         <CreateEventForm
           onClose={() => setShowForm(false)}
-          onSave={(date, time, name) => {
-            const dateKey = `${date} ${time}`;
-            addEvent(dateKey, name);
+          onSave={(date, startTime, endTime, name) => {
+            addEvent(date, startTime, endTime, name);
             setShowForm(false);
           }}
         />
