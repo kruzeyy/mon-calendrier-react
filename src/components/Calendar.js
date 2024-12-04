@@ -33,14 +33,14 @@ const Calendar = () => {
     const start = startOfWeek(currentWeek, { locale: fr });
 
     return (
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 flex-wrap sm:flex-nowrap">
         <button
           onClick={() => setCurrentWeek(addDays(currentWeek, -7))}
           className="text-gray-400 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-md"
         >
           &lt;
         </button>
-        <h2 className="text-2xl font-semibold text-white">
+        <h2 className="text-lg sm:text-2xl font-semibold text-white text-center sm:text-left">
           Semaine du {format(start, 'dd MMMM yyyy', { locale: fr })}
         </h2>
         <button
@@ -59,17 +59,17 @@ const Calendar = () => {
     const days = Array.from({ length: 7 }, (_, i) => addDays(start, i));
 
     return (
-      <div className="grid grid-cols-8 border-t border-gray-700">
-        <div className="bg-gray-800 text-gray-300 text-center font-bold"></div>
+      <div className="grid grid-cols-1 sm:grid-cols-8 border-t border-gray-700">
+        <div className="bg-gray-800 text-gray-300 text-center font-bold hidden sm:block"></div>
         {days.map((day, index) => (
-          <div key={index} className="bg-gray-800 text-gray-300 text-center font-bold p-2">
+          <div key={index} className="bg-gray-800 text-gray-300 text-center font-bold p-2 text-xs sm:text-sm">
             {format(day, 'EEEE dd MMMM', { locale: fr })}
           </div>
         ))}
 
         {hours.map((hour) => (
           <React.Fragment key={hour}>
-            <div className="text-gray-400 bg-gray-900 text-right pr-2 h-16 border-b border-gray-700">
+            <div className="text-gray-400 bg-gray-900 text-right pr-2 h-16 border-b border-gray-700 hidden sm:block">
               {hour}:00
             </div>
             {days.map((day) => {
@@ -106,9 +106,9 @@ const Calendar = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto bg-gray-900 p-6 rounded-lg shadow-lg">
+    <div className="max-w-full sm:max-w-5xl mx-auto bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-white">Mon Calendrier</h1>
+        <h1 className="text-lg sm:text-2xl font-bold text-white">Mon Calendrier</h1>
         <button
           onClick={() => setShowForm(true)}
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
